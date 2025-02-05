@@ -1,5 +1,6 @@
 /* 1.Create a database named employee, then import data_science_team.csv proj_table.csv and
  emp_record_table.csv into the employee database from the given resources. */
+  
 CREATE DATABASE employee;
 USE employee;
 
@@ -18,6 +19,9 @@ SELECT EMP_ID,FIRST_NAME,LAST_NAME,GENDER,DEPT,EMP_RATING,
 IF(EMP_RATING < 2,'less than 2',
 if(EMP_RATING between 2 AND 4,'between 2 and four 4', 'greater than 4')) as RATING_CATEGORY
    FROM emp_record_table;
+
+or 
+
 
 /*5. Write a query to concatenate the FIRST_NAME and the LAST_NAME of employees in the
  Finance department from the employee table and then give the resultant column alias as NAME. */
@@ -132,7 +136,7 @@ SELECT
 FROM
     emp_record_table;
     
-    /*15.	Create an index to improve the cost and performance of the query to
+/*15.	Create an index to improve the cost and performance of the query to
     find the employee whose FIRST_NAME is ‘Eric’ in the employee table after checking the execution plan.*/
     
     CREATE INDEX on emp_record_table(FIRST_NAME);
