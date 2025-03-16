@@ -4,6 +4,76 @@
 CREATE DATABASE employee;
 USE employee;
 
+DROP TABLE IF EXISTS emp_record_table;
+CREATE TABLE emp_record_table (
+EMP_ID VARCHAR(10) NOT NULL,			-- ID of the employee
+FIRST_NAME VARCHAR(50) DEFAULT NULL,	-- First name of the employee
+LAST_NAME VARCHAR(50) DEFAULT NULL,		-- Last name of the employee
+GENDER VARCHAR(1) DEFAULT NULL,			-- Gender of the employee
+ROLE VARCHAR(50) DEFAULT NULL, 			-- Post of the employee
+DEPT VARCHAR(50) DEFAULT NULL,			-- Field of the employee
+EXP INT DEFAULT NULL,					-- Years of experience the employee has
+COUNTRY VARCHAR(50) DEFAULT NULL,		-- Country in which the employee is presently living
+CONTINENT VARCHAR(50) DEFAULT NULL,		-- Continent in which the country is
+SALARY INT DEFAULT NULL, 				-- Salary of the employee
+EMP_RATING INT DEFAULT NULL,			-- Performance rating of the employee
+MANAGER_ID VARCHAR(10) DEFAULT NULL,	-- The manager under which the employee is assigned 
+PROJ_ID VARCHAR(10) DEFAULT NULL, 		-- The project on which the employee is working or has worked on
+
+PRIMARY KEY (EMP_ID)
+);
+
+DESCRIBE emp_record_table;
+SELECT * FROM emp_record_table;			-- Import from emp_record_table.csv
+
+
+DROP TABLE IF EXISTS proj_table;
+CREATE TABLE proj_table (
+PROJECT_ID VARCHAR(10) NOT NULL, 		-- ID for the project
+PROJ_Name VARCHAR(50) DEFAULT NULL,		-- Name of the project
+DOMAIN VARCHAR(50) DEFAULT NULL,		-- Field of the project
+START_DATE DATE DEFAULT NULL,			-- Day the project began
+CLOSURE_DATE DATE DEFAULT NULL,			-- Day the project was or will be completed
+DEV_QTR VARCHAR(2) DEFAULT NULL,		-- Quarter in which the project was scheduled
+STATUS VARCHAR(50) DEFAULT NULL		-- Status of the project currently
+);
+
+DESCRIBE proj_table;
+
+
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Data/employee/1643891559_performance_mapping_datasets/proj_table.csv' 
+INTO TABLE proj_table   
+FIELDS TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"'  
+LINES TERMINATED BY '\n'   
+IGNORE 1 ROWS
+(DOMAIN, @DATE, @DATE, DEV_QTR)
+SET START_DATE = STR_TO_DATE(@DATE, '%m/%d/%Y'), CLOSURE_DATE = STR_TO_DATE(@Date, '%m/%d/%Y');  
+
+SELECT *  FROM proj_table;
+
+
+
+
+CREATE TABLE data_science_team (
+EMP_ID VARCHAR(10) NOT NULL,			-- ID of the employee
+FIRST_NAME VARCHAR(50) DEFAULT NULL, 	-- First name of the employee
+LAST_NAME VARCHAR(50) DEFAULT NULL,		-- Last name of the employee
+GENDER VARCHAR(1) DEFAULT NULL,			-- Gender of the employee
+ROLE VARCHAR(50) DEFAULT NULL,			-- Post of the employee
+DEPT VARCHAR(50) DEFAULT NULL,			-- Field of the employee
+EXP INT DEFAULT NULL,					-- Years of experience the employee has
+COUNTRY VARCHAR(50) DEFAULT NULL,		-- Country in which the employee is presently living
+CONTINENT VARCHAR(50) DEFAULT NULL,		-- Continent in which the country is
+PRIMARY KEY (EMP_ID)
+);
+
+DESCRIBE data_science_team;
+SELECT * FROM data_science_team;
+
+
+-- 2. Create an ER diagram for the given employee database.
+
 /*3.	Write a query to fetch EMP_ID, FIRST_NAME, LAST_NAME, GENDER, and DEPARTMENT from the 
 employee record table, and make a list of employees and details of their department. */
 
@@ -21,6 +91,19 @@ if(EMP_RATING between 2 AND 4,'between 2 and four 4', 'greater than 4')) as RATI
    FROM emp_record_table;
 
 or 
+	SELECT EMP_ID, FIRST_NAME, LAST_NAME, GENDER, DEPT, EMP_RATING
+FROM emp_record_table
+WHERE EMP_RATING < 2;
+
+SELECT EMP_ID, FIRST_NAME, LAST_NAME, GENDER, DEPT, EMP_RATING
+FROM emp_record_table
+WHERE EMP_RATING > 4;
+
+SELECT EMP_ID, FIRST_NAME, LAST_NAME, GENDER, DEPT, EMP_RATING
+FROM emp_record_table
+WHERE EMP_RATING BETWEEN 2 AND 4
+ORDER BY EMP_RATING;
+
 
 
 /*5. Write a query to concatenate the FIRST_NAME and the LAST_NAME of employees in the
